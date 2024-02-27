@@ -20,6 +20,21 @@
             padding: 20px;
         }
 
+        .sidebar-left {
+            float: left;
+        }
+
+        .sidebar-right {
+            float: right;
+        }
+
+        .sidebar-none {
+            width: 0;
+            padding: 0;
+            overflow: hidden;
+            visibility: hidden;
+        }
+
         /* Стилі для контенту */
         .content {
             float: left;
@@ -50,12 +65,49 @@
 
     <div class="content">
         <h2>Контент</h2>
-        <!-- Тут може бути ваш контент -->
     </div>
 
     <footer>
         <h2>Футер</h2>
-        <!-- Тут може бути ваш футер -->
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var sidebarRadios = document.querySelectorAll('input[type="radio"][name="sidebar"]');
+            var sidebar = document.querySelector('.sidebar');
+            var content = document.querySelector('.content');
+
+            if (sidebarRadios && sidebar && content) {
+                sidebarRadios.forEach(function(radio) {
+                    radio.addEventListener('change', function() {
+                        var selectedValue = getSelectedValue(sidebarRadios);
+
+                        if (selectedValue === 'left') {
+                            sidebar.classList.remove('sidebar-right');
+                            sidebar.classList.add('sidebar-left');
+                            content.classList.remove('content-no-sidebar');
+                        } else if (selectedValue === 'right') {
+                            sidebar.classList.remove('sidebar-left');
+                            sidebar.classList.add('sidebar-right');
+                            content.classList.remove('content-no-sidebar');
+                        } else if (selectedValue === 'none') {
+                            sidebar.classList.remove('sidebar-left', 'sidebar-right');
+                            sidebar.classList.add('sidebar-none');
+                            content.classList.add('content-no-sidebar');
+                        }
+                    });
+                });
+            }
+
+            function getSelectedValue(radios) {
+                for (var i = 0; i < radios.length; i++) {
+                    if (radios[i].checked) {
+                        return radios[i].value;
+                    }
+                }
+                return null;
+            }
+        });
+    </script>
 </body>
 </html>
